@@ -11,6 +11,34 @@ import * as THREE from 'three';
         /* ===== SPAWN CONFIGURATION ===== */
         const spawnConfig = createSpawnConfig();
 
+        // Inventory and world state
+        const inventorySlots = new Array(16).fill(null);
+        const placedBoxes = {};
+        const objects = [];
+        const boars = [];
+
+        let openBoxId = null;
+        let openStationType = null;
+        let heldItem = null;
+        let ghostMesh = null;
+
+        // Weapon models attached to camera
+        let leftWeapon, rightWeapon;
+
+        // Attack state
+        let leftAttacking = false, rightAttacking = false;
+        let lTimer = 0, rTimer = 0;
+        let isAttacking = false, attackTimer = 0;
+
+        // Movement state
+        let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+        let canJump = false;
+        const velocity = new THREE.Vector3();
+        let prevTime = performance.now();
+
+        // Equipment slots
+        const equipmentSlots = { back: null, armor: null, lhand: null, rhand: null, head: null, torso: null, legs: null, feet: null };
+
         // Global audio/sound helper
         const playSfx = createAudioPlayer();
 
