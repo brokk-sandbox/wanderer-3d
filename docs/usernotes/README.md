@@ -14,4 +14,8 @@ Use this folder for **human-authored notes** (design thoughts, testing observati
 - Result / observations
 - Next step
 
-This keeps long-term design discussion separate from technical change logs.
+## Starter files
+- `gettingstarted.md` — reusable instruction template for notes you want me to remember.
+- `playtest-notes.md` — quick testing/observational notes.
+
+Use these as starting points, then add additional dated files as needed.
