@@ -10,9 +10,6 @@ permissions:
   pages: write
   id-token: write
 
-env:
-  # Suppress deprecation-style runtime warnings from action/tooling
-  NODE_OPTIONS: --no-deprecation --no-warnings
 
 concurrency:
   group: "pages"
