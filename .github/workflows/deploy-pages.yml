@@ -10,6 +10,8 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  NODE_OPTIONS: --no-deprecation --no-warnings
 
 concurrency:
   group: "pages"

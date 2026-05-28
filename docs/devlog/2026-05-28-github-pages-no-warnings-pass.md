@@ -22,7 +22,8 @@ Reduce workflow logs to near-zero warnings.
 - Added `vite.config.js` with:
   - `build.chunkSizeWarningLimit = 1024 * 1024` to suppress Vite chunk-size warning noise.
 - Added a checkout follow-up step to disable Git default-branch hint (`advice.defaultBranchName`) so build logs stay warning-free.
-- Kept explicit deprecation-suppression env (`NODE_OPTIONS`) in workflow as a safety measure while validating.
+- Reintroduced `NODE_OPTIONS: --no-deprecation --no-warnings` in workflow to suppress noisy third-party deprecation diagnostics (punycode/url.parse) from GitHub Action runtimes while preserving successful deployment.
+- Current state target: clean action/deployment logs with only normal step metadata.
 
 ## Expected outcome
 - Removes current Node.js 20 deprecation warnings in CI logs.
