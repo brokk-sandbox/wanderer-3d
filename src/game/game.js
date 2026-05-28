@@ -135,6 +135,49 @@ import * as THREE from 'three';
         // toolbar-slot-3 = ACT 3 (pocket slot 2, key 3)
         // toolbar-slot-4 = R-HAND (equip rhand)
 
+
+        function bindMenuButtons() {
+            const buttonMap = {
+                'btn-start': startGame,
+                'btn-resume': startGame,
+                'btn-save': saveGame,
+                'btn-load': loadGame,
+                'btn-quit': () => toggleWindow('menu'),
+                'btn-give': () => {
+                    try { giveItem(); } catch { }
+                }
+            };
+
+            // Hardening: ensure menu buttons always have handlers even if event wiring is missed elsewhere
+            const menu = document.getElementById('main-menu');
+            if (menu && !menu.dataset.wired) {
+                menu.addEventListener('click', (e) => {
+                    const target = e.target.closest('button');
+                    if (!target) return;
+                    const handler = buttonMap[target.id];
+                    if (!handler) return;
+                    e.preventDefault();
+                    handler();
+                });
+                menu.dataset.wired = '1';
+            }
+
+            Object.entries(buttonMap).forEach(([id, handler]) => {
+                const btn = document.getElementById(id);
+                if (!btn) return;
+                if (!btn.dataset.wired) {
+                    const isAdmin = id === 'btn-give';
+                    if (!isAdmin) {
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            handler();
+                        });
+                    }
+                    btn.dataset.wired = '1';
+                }
+            });
+        }
+
         function initUI() {
             const tbg = document.getElementById('toolbar-grid');
             tbg.innerHTML = '';
@@ -1797,6 +1840,7 @@ import * as THREE from 'three';
 
             // Build UI and render initial state
             initUI();
+            bindMenuButtons();
             updateUI();
         }
 
@@ -1996,3 +2040,14 @@ import * as THREE from 'three';
         /* ===== START ===== */
         init();
         animate();
+
+
+// Expose menu actions for diagnostics
+if (typeof window !== "undefined") {
+    window.__wandererMenu = window.__wandererMenu || {};
+    window.__wandererMenu.startGame = startGame;
+    window.__wandererMenu.saveGame = saveGame;
+    window.__wandererMenu.loadGame = loadGame;
+    window.__wandererMenu.toggleMenu = () => toggleWindow('menu');
+    window.__wandererMenu.giveItem = giveItem;
+}
