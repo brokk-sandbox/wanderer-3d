@@ -15,7 +15,9 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 ```
 
-This suppresses the warning and aligns workflow execution with upcoming runner changes.
+To ensure the setting applies to all jobs/steps, the env variable is now set at workflow scope, job scope (`build`, `deploy`) and deploy step.
+
+This is expected to suppress the warning across both build and deploy actions.
 
 ## Note
 No gameplay code changed; only CI workflow behavior/prep.
