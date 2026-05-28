@@ -3,6 +3,7 @@
 A lightweight procedural **survival prototype** in Three.js, now structured as a clean Vite project and playable directly from the repo.
 
 > **Live Game:** https://brokk-sandbox.github.io/wanderer-3d/
+> **Browser Recommendation:** Chromium (or modern Chrome/Edge for best WebGL stability and pointer-lock behavior)
 
 ---
 
