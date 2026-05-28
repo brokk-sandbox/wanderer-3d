@@ -26,6 +26,23 @@ npm run dev
 
 `npm run dev` starts a local dev server and serves the app from `/src/main.js`.
 
+### Play on GitHub Pages
+
+Production build is deployed via GitHub Actions to:
+
+https://brokk-sandbox.github.io/wanderer-3d/
+
+(If the repo is served under a different owner/repo path, update the workflow base path in `.github/workflows/deploy-pages.yml`.)
+
+## Deployment (done in repo settings + Actions)
+
+The workflow is located at `.github/workflows/deploy-pages.yml` and runs on every push to `main`.
+
+If you want to trigger a one-off deploy manually:
+
+- Go to GitHub Actions tab
+- Run the workflow: **Deploy to GitHub Pages**
+
 ## Previous single-file backup
 
 If you need to inspect the original flat version, open `index.original.html`.
