@@ -22,10 +22,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
-
       - name: Silence git default-branch advice
         run: git config --global advice.defaultBranchName false
+
+      - uses: actions/checkout@v5
 
       - name: Set up Node.js
         uses: actions/setup-node@v5
