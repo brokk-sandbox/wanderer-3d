@@ -10,6 +10,11 @@ permissions:
   pages: write
   id-token: write
 
+# Opt into GitHub-hosted runners' Node.js 24 runtime for JavaScript actions now,
+# which suppresses the Node.js 20 deprecation warnings in Action execution.
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 concurrency:
   group: "pages"
   cancel-in-progress: false
