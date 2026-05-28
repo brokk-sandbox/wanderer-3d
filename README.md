@@ -1,48 +1,94 @@
-# WANDERER 3D
+# 🗺️ WANDERER 3D
 
-A procedural 3JS survival/game prototype refactored into a modular Vite project structure.
+A lightweight procedural **survival prototype** in Three.js, now structured as a clean Vite project and playable directly from the repo.
 
-## Setup
+> **Live Game:** https://brokk-sandbox.github.io/wanderer-3d/
 
+---
+
+## 🎮 Game & Gameplay
+
+### What you are playing
+- Explore a generated open world with terrain, trees, rocks, shrubs, and boar enemies.
+- Gather resources, craft tools, build shelters, and manage survival essentials.
+- Use an equipment-based inventory with hand slots and quick-action toolbar.
+
+### Core Loop (in practice)
+1. **Spawn** with a basic starter weapon (`PointyStick`) and mobility gear (`Pants`).
+2. **Gather** resources by approaching objects and holding **`E`** to collect.
+3. **Craft** via stations and progress to advanced tools/structures.
+4. **Fight** boars with melee tools (left/right hand combat).
+5. **Save / load** via menu controls to preserve progress.
+
+### Controls
+- **WASD** — Move
+- **Space** — Jump
+- **E (hold)** — Interact/pickup progress (release early for quick pick)
+- **Mouse LMB / RMB** — Left/right hand attack (when equipped)
+- **1 / 2 / 3** — Use action toolbar slots
+- **B** — Backpack, **P** — Pockets, **I** — Character, **C** — Crafting, **M** — Menu
+- **Esc** — Cancel placement mode
+- **Mouse** drag in windows — Move draggable UI panels
+
+### Gameplay systems (overview)
+- **World:** seeded/procedural terrain, natural spawn cycles, and periodic world respawn limits.
+- **Inventory:** pocket slots + backpack + equipment/body slots + storage boxes.
+- **Building:** place crafted structures (`Campfire`, `Workbench`, `Wood*` pieces, `StorageBox`, etc.).
+- **Crafting stations:**
+  - **Hand** — basic early-game items
+  - **Campfire** — simple cooking
+  - **Workbench** — advanced tools/furniture/build components
+- **Combat UI:** target bar for boars and health bars for player/target.
+- **Persistence:** client-side JSON save/load (`localStorage`) for inventory, world pickups, and placed containers/objects.
+
+### Current player notes
+- Torch lighting is used as a lighting dependency in-game logic (no default player headlight).
+- Door and placement interactions are supported through interaction raycasts.
+- Audio cues are lightweight, browser-native (WebAudio-based helpers).
+
+---
+
+## 🛠️ Game Development
+
+### Project structure
+- `index.html` — Vite entry shell + HUD/container markup
+- `src/main.js` — app bootstrap
+- `src/style.css` — extracted style sheet
+- `src/game/game.js` — unified gameplay module
+- `src/game/data/config.js` — item names, recipes, toolbar, spawn config
+- `src/game/terrain.js` — elevation/noise helpers
+- `src/game/audio.js` — simple SFX helper
+- `index.original.html` — original single-file backup
+- `.github/workflows/deploy-pages.yml` — CI pipeline for deployment
+- `vite.config.js` — build config (chunk warning threshold tuned)
+
+### Local setup
 ```bash
 cd /home/userone/source/github/public/wanderer-3d
 npm install
-npm run dev
+npm run dev          # local host
+npm run dev:vm       # network-accessible host (VM users)
+npm run build        # production build
+npm run preview      # preview dist
 ```
 
-## Project structure
+### Play from GitHub Pages
+- Repo is wired with GitHub Actions → Pages auto-deploy on `main` pushes.
+- Workflow uses Node 24-friendly action versions and suppression for noisy runtime warnings from external action internals.
+- Published URL: **https://brokk-sandbox.github.io/wanderer-3d/**
 
-- `index.html` — entrypoint shell
-- `src/main.js` — bootstraps the game module
-- `src/game/game.js` — main game script (migrated from the original `index.html` inline script)
-- `src/game/data/config.js` — shared game constants
-- `src/game/terrain.js` — terrain noise/elevation helpers
-- `src/game/audio.js` — audio playback helper
-- `src/style.css` — extracted styles
-- `index.original.html` — backup copy of the original single-file page
-- `package.json`, `dist/`, and lock files as usual
+### CI / Deployment quick notes
+- Action chain: `checkout` → `setup-node` → build → configure-pages → upload artifact → deploy.
+- Chunk warning noise is reduced via `vite.config.js` (`chunkSizeWarningLimit`).
+- Save this URL in bookmarks and share it as the public play link.
 
-## Run
+### Next dev milestones (suggested)
+- Split `src/game/game.js` into dedicated modules (`ui`, `inventory`, `combat`, `world`).
+- Improve responsiveness and accessibility on smaller screens.
+- Add gameplay telemetry and deterministic world save schemas.
 
-`npm run dev` starts a local dev server and serves the app from `/src/main.js`.
+---
 
-### Play on GitHub Pages
-
-Production build is deployed via GitHub Actions to:
-
-https://brokk-sandbox.github.io/wanderer-3d/
-
-(If the repo is served under a different owner/repo path, update the workflow base path in `.github/workflows/deploy-pages.yml`.)
-
-## Deployment (done in repo settings + Actions)
-
-The workflow is located at `.github/workflows/deploy-pages.yml` and runs on every push to `main`.
-
-If you want to trigger a one-off deploy manually:
-
-- Go to GitHub Actions tab
-- Run the workflow: **Deploy to GitHub Pages**
-
-## Previous single-file backup
-
-If you need to inspect the original flat version, open `index.original.html`.
+## 🌐 Reference docs
+- Development notes: `docs/devlog/README.md`
+- Deployment notes: `docs/devlog/2026-05-28-github-pages-deploy.md`

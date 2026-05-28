@@ -7,25 +7,23 @@
 Reduce workflow logs to near-zero warnings.
 
 ## Changes applied
-- Upgraded workflow actions to Node24-first versions:
-  - `actions/checkout@v5`
-  - `actions/setup-node@v5`
-  - `actions/configure-pages@v6`
-  - `actions/upload-pages-artifact@v5`
-  - `actions/deploy-pages@v5`
-- Upgraded workflow actions to Node24 versions:
+- Upgraded all GitHub Pages workflow actions to Node24-capable versions:
   - `actions/checkout@v5`
   - `actions/setup-node@v5`
   - `actions/configure-pages@v6`
   - `actions/upload-pages-artifact@v5`
   - `actions/deploy-pages@v5`
 - Added `vite.config.js` with:
-  - `build.chunkSizeWarningLimit = 1024 * 1024` to suppress Vite chunk-size warning noise.
-- Added a checkout follow-up step to disable Git default-branch hint (`advice.defaultBranchName`) so build logs stay warning-free.
-- Reintroduced `NODE_OPTIONS: --no-deprecation --no-warnings` in workflow to suppress noisy third-party deprecation diagnostics (punycode/url.parse) from GitHub Action runtimes while preserving successful deployment.
-- Current state target: clean action/deployment logs with only normal step metadata.
+  - `build.chunkSizeWarningLimit = 1024 * 1024` to silence Vite chunk-size noise.
+- Added a pre-checkout step to disable Git default-branch advice (`advice.defaultBranchName`) so CI logs remain clean.
+- Reintroduced workflow-level `NODE_OPTIONS=--no-deprecation --no-warnings` to suppress noisy runtime deprecations from action dependencies (e.g., punycode/url.parse).
+- Resulting behavior: deployment remains successful while warning noise is reduced to normal operational metadata.
 
-## Expected outcome
-- Removes current Node.js 20 deprecation warnings in CI logs.
-- Removes Vite build chunk-size warning.
-- Remaining possible warnings are likely only upstream external dependency diagnostics.
+## Validation
+- **Build**: `gh workflow run "Deploy to GitHub Pages"`
+- **Latest successful run:** `26593304360` (on commit `4e30ad5`)
+- After final adjustments (`4e30ad5`), logs no longer showed deprecation warnings from GitHub Pages actions or Vite build warnings.
+
+## Notes
+- `NODE_OPTIONS` was briefly removed for validation and showed internal runtime warnings again; it was restored for a practical, stable clean-log state.
+- This is a CI quality pass only (game behavior unchanged).
